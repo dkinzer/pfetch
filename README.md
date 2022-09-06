@@ -1,16 +1,15 @@
 # Pfetch
 
-Defines the pfetch executable that given a query string and an optional sorting argument returns a combined result set from various endpoints.
+Defines the pfetch executable script that given a query string and an optional sorting argument returns a combined result set from various endpoints.
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+From the source code root directory run the following commands:
 
-    $ bundle add pfetch
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install pfetch
+```
+gem build
+gem install pfetch
+```
 
 ## Usage
 
