@@ -10,7 +10,7 @@ class Pfetch::Colenda < Pfetch::BaseSearch
       {
         id: id,
         title: doc["title_tesim"]&.first.to_s,
-        abstract: doc["abstract_tesim"]&.first.to_s,
+        abstract: doc["description_tesim"]&.first.to_s,
         date: doc["date_tesim"]&.first.to_i,
         subjects: doc["subject_tesim"]&.join(", "),
         link: base_uri + "/catalog/#{id}",
