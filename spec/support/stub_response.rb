@@ -46,5 +46,33 @@ module Pfetch
       allow(@http).to receive(:request).and_return(response)
       response
     end
+
+    def stub_finding_aids_request(fixture: nil, data: nil)
+      data ||= file_fixture("finding_aids/#{fixture}")
+
+      stub_request(:get, "https://findingaids.library.upenn.edu/records/?f%5Bsource%5D%5B0%5D=upenn&format=json&q=food&search_field=all&utf8=%E2%9C%93")
+        .with(
+          headers: {
+            "Accept" => "*/*",
+            "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "User-Agent" => "Ruby"
+          }
+        )
+        .to_return(status: 200, body: data.to_s, headers: {})
+    end
+
+    def stub_colenda_request(fixture: nil, data: nil)
+      data ||= file_fixture("colenda/#{fixture}")
+
+      stub_request(:get, "https://colenda.library.upenn.edu/?format=json&q=food&search_field=all&utf8=%E2%9C%93")
+        .with(
+          headers: {
+            "Accept" => "*/*",
+            "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "User-Agent" => "Ruby"
+          }
+        )
+        .to_return(status: 200, body: data.to_s, headers: {})
+    end
   end
 end

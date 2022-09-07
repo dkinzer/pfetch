@@ -17,7 +17,7 @@ RSpec.describe Pfetch::Colenda do
     let(:record) { Pfetch::Colenda.query("food").first }
 
     before do
-      stub_http_response_with("colendra/food.json")
+      stub_http_response_with("colenda/food.json")
     end
 
     it "maps the document ids" do
