@@ -22,6 +22,7 @@ help = <<~HELP
       --version              - Display the program version
       --sort-by=<sort_field> - Sort returned records by the specified fied
                                <sort_field> can be one of "title", "date" or "relevance"
+                               Orders by "date" field if this option is not given.
 
   EXAMPLE
 
@@ -43,7 +44,7 @@ if ARGV.count == 0
   exit 128
 end
 
-sort_field = ARGV.find { |argv| argv.match(/--sort-by=/) } || "title"
+sort_field = ARGV.find { |argv| argv.match(/--sort-by=/) } || "date"
 sort_field = sort_field.sub("--sort-by=", "")
 
 query_string = ARGV.find { |argv| !argv.match(/^--/) }
@@ -53,5 +54,5 @@ if query_string.nil?
   exit 128
 end
 
-puts Pfetch::Cli.run(query_string: query_string, sort_field: sort_field).to_json
+puts Pfetch::Cli.run(query_string: query_string, sort_field: sort_field.to_sym).to_json
 exit 0
