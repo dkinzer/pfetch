@@ -29,30 +29,17 @@ help = <<~HELP
   pfetch "hello world" --sort
 HELP
 
-if ARGV.any? "--help"
-  puts help
-  exit 0
-end
+puts help and exit 0 if ARGV.any? "--help"
 
-if ARGV.any? "--version"
-  puts Pfetch::VERSION.to_s
-  exit 0
-end
+puts Pfetch::VERSION.to_s and exit 0 if ARGV.any? "--version"
 
-if ARGV.count == 0
-  puts help
-  exit 128
-end
+puts help and exit 128 if ARGV.count == 0
 
 sort_field = ARGV.find { |argv| argv.match(/--sort-by=/) } || "date"
 sort_field = sort_field.sub("--sort-by=", "")
 
 query_string = ARGV.find { |argv| !argv.match(/^--/) }
-
-if query_string.nil?
-  puts help
-  exit 128
-end
+puts help and exit 128 if query_string.nil?
 
 puts Pfetch::Cli.run(query_string: query_string, sort_field: sort_field.to_sym).to_json
 exit 0
