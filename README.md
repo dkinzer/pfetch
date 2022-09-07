@@ -15,7 +15,7 @@ gem install pfetch
 
 `pfetch "hello world"`
 
-`pfetch "hello world" --sort=relevance`
+`pfetch "hello world" --sort-by=relevance`
 
 
 

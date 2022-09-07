@@ -3,4 +3,55 @@
 
 require "pfetch"
 
-puts Pfetch::Cli.run(query_string: ARGV[0]).to_json
+help = <<~HELP
+  NAME
+      pfetch - Fetch some records as json.
+  
+  
+  SYNOPSIS
+      pfetch [options] "<query_string>"
+  
+  
+  VERSION
+      #{Pfetch::VERSION}
+  
+  
+  
+  OPTIONS
+      --help                 - Show this message
+      --version              - Display the program version
+      --sort-by=<sort_field> - Sort returned records by the specified fied
+                               <sort_field> can be one of "title", "date" or "relevance"
+
+  EXAMPLE
+
+  pfetch "hello world" --sort
+HELP
+
+if ARGV.any? "--help"
+  puts help
+  exit 0
+end
+
+if ARGV.any? "--version"
+  puts Pfetch::VERSION.to_s
+  exit 0
+end
+
+if ARGV.count == 0
+  puts help
+  exit 128
+end
+
+sort_field = ARGV.find { |argv| argv.match(/--sort-by=/) } || "title"
+sort_field = sort_field.sub("--sort-by=", "")
+
+query_string = ARGV.find { |argv| !argv.match(/^--/) }
+
+if query_string.nil?
+  puts help
+  exit 128
+end
+
+puts Pfetch::Cli.run(query_string: query_string, sort_field: sort_field).to_json
+exit 0
