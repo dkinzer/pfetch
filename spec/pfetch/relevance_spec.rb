@@ -52,8 +52,32 @@ RSpec.describe Pfetch::Relevance do
     context "when no fields contains search_string" do
       let(:relevance) { subject.relevance("zzzz") }
 
-      it "append a zer orelevance" do
+      it "append a zero orelevance" do
         expect(relevance.call(record)[:relevance]).to eq(0)
+      end
+    end
+
+    context "When multi term field and one substring matches" do
+      let(:relevance) { subject.relevance("zzzz bizz") }
+
+      it "append weight for the one term" do
+        expect(relevance.call(record)[:relevance]).to eq(10)
+      end
+    end
+
+    context "When multi term field and all substring match but not together" do
+      let(:relevance) { subject.relevance("my bizz") }
+
+      it "append summed weight of each substring" do
+        expect(relevance.call(record)[:relevance]).to eq(20)
+      end
+    end
+
+    context "When multi term field matches exactly" do
+      let(:relevance) { subject.relevance("my foo") }
+
+      it "append summed weight of each substring plus weight of full phrase match" do
+        expect(relevance.call(record)[:relevance]).to eq(40)
       end
     end
   end

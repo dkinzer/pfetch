@@ -2,10 +2,22 @@
 
 module Pfetch::Relevance
   def relevance(string)
-    lambda do |record|
-      relevance = {title: 10, abstract: 5, date: 1, subjects: 1}.map { |field, weight|
-        record[field].to_s.scan(/#{string.strip}/i).count * weight
+    weights = {title: 10, abstract: 5, date: 1, subjects: 1}
+
+    # Sum up all occurances of a substring in each field by associated weight.
+    weigh = lambda do |sub_string, record|
+      weights.map { |field, weight|
+        record[field].to_s.scan(/#{sub_string.strip}/i).count * weight
       }.sum
+    end
+
+    lambda do |record|
+      # Boost multi term phrase match.
+      relevance = weigh.call(string, record)
+
+      if string.split.count > 1
+        relevance += string.split.map { |sub_string| weigh.call(sub_string, record) }.sum
+      end
 
       record.merge(relevance: relevance)
     end
