@@ -16,7 +16,6 @@ help = <<~HELP
       #{Pfetch::VERSION}
   
   
-  
   OPTIONS
       --help                 - Show this message
       --version              - Display the program version
@@ -25,8 +24,7 @@ help = <<~HELP
                                Orders by "date" field if this option is not given.
 
   EXAMPLE
-
-  pfetch "hello world" --sort
+      pfetch "hello world" --sort
 HELP
 
 if ARGV.any? "--help"
