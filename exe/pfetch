@@ -24,7 +24,7 @@ help = <<~HELP
                                Orders by "date" field if this option is not given.
 
   EXAMPLE
-      pfetch "hello world" --sort
+      pfetch "hello world" --sort-by
 HELP
 
 if ARGV.any? "--help"
